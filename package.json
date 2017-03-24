@@ -251,6 +251,11 @@
                 "type": "string",
                 "description": "Optional: Absolute path to the PowerShell script to launch under the debugger."
               },
+              "startNewSession": {
+                "type": "boolean",
+                "description": "When true, the script will be launched in a new PowerShell process with a fresh session.",
+                "default": false
+              },
               "args": {
                 "type": "array",
                 "description": "Command line arguments to pass to the PowerShell script.",

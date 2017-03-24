@@ -6,6 +6,10 @@ import vscode = require('vscode');
 import { IFeature } from '../feature';
 import { LanguageClient, RequestType, NotificationType } from 'vscode-languageclient';
 
+export class DebugSessionClient {
+
+}
+
 export class DebugSessionFeature implements IFeature {
     private command: vscode.Disposable;
     private examplesPath: string;
