@@ -120,7 +120,7 @@ export class SessionManager {
         if (this.sessionConfiguration.type === SessionType.UsePath ||
             this.sessionConfiguration.type === SessionType.UseBuiltIn) {
 
-            var bundledModulesPath = path.resolve(__dirname, "../modules");
+            var bundledModulesPath = path.resolve(__dirname, "../../modules");
 
             if (this.inDevelopmentMode) {
                 var devBundledModulesPath =
@@ -128,7 +128,7 @@ export class SessionManager {
                     path.resolve(
                         __dirname,
                         this.sessionSettings.developer.bundledModulesPath ||
-                        "../../PowerShellEditorServices/module");
+                        "../../../PowerShellEditorServices/module");
 
                 // Make sure the module's bin path exists
                 if (fs.existsSync(path.join(devBundledModulesPath, "PowerShellEditorServices/bin"))) {
@@ -273,7 +273,7 @@ export class SessionManager {
             let startScriptPath =
                 path.resolve(
                     __dirname,
-                    '../scripts/Start-EditorServices.ps1');
+                    '../../scripts/Start-EditorServices.ps1');
 
             var editorServicesLogPath = this.log.getLogFilePath("EditorServices");
 
@@ -308,7 +308,7 @@ export class SessionManager {
                 // NOTE: This batch file approach is needed temporarily until VS Code's
                 // createTerminal API gets an argument for setting environment variables
                 // on the launched process.
-                var batScriptPath = path.resolve(__dirname, '../sessions/powershell.bat');
+                var batScriptPath = path.resolve(__dirname, '../../sessions/powershell.bat');
                 fs.writeFileSync(
                     batScriptPath,
                     `@set DEVPATH=${path.dirname(powerShellExePath)}\r\n@${powerShellExePath} %*`);
