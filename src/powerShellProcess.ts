@@ -33,7 +33,7 @@ export interface ProcessConfiguration {
 /*
 
 WHAT I NEED:
-- Remote files (psedit)
+- Remote files (psedit) -- POSTPONE
 - Startup progress indicator until debugger starts
 - No language server hookup, MAYBE IntelliSense, but not likely
 - Switch F8 to debug session console
@@ -83,14 +83,14 @@ export class PowerShellProcess extends EventEmitter {
 
     public launch(processConfig: ProcessConfiguration) {
 
-        var bundledModulesPath = path.resolve(__dirname, "../modules");
+        var bundledModulesPath = path.resolve(__dirname, "../../modules");
 
         if (this.inDevelopmentMode) {
             var devBundledModulesPath =
                 path.resolve(
                     __dirname,
                     processConfig.bundledModulesPath ||
-                    "../../PowerShellEditorServices/module");
+                    "../../../PowerShellEditorServices/module");
 
             // Make sure the module's bin path exists
             if (fs.existsSync(path.join(devBundledModulesPath, "PowerShellEditorServices/bin"))) {
@@ -126,7 +126,7 @@ export class PowerShellProcess extends EventEmitter {
             let startScriptPath =
                 path.resolve(
                     __dirname,
-                    '../scripts/Start-EditorServices.ps1');
+                    '../../scripts/Start-EditorServices.ps1');
 
             var editorServicesLogPath = this.log.getLogFilePath("EditorServices");
 
@@ -163,7 +163,7 @@ export class PowerShellProcess extends EventEmitter {
                 // NOTE: This batch file approach is needed temporarily until VS Code's
                 // createTerminal API gets an argument for setting environment variables
                 // on the launched process.
-                var batScriptPath = path.resolve(__dirname, '../sessions/powershell.bat');
+                var batScriptPath = path.resolve(__dirname, '../../sessions/powershell.bat');
                 fs.writeFileSync(
                     batScriptPath,
                     `@set DEVPATH=${path.dirname(powerShellExePath)}\r\n@${powerShellExePath} %*`);
@@ -202,15 +202,15 @@ export class PowerShellProcess extends EventEmitter {
                         }
                         else if (sessionDetails.status === "failed") {
                             if (sessionDetails.reason === "unsupported") {
-                                this.setSessionFailure(
-                                    `PowerShell language features are only supported on PowerShell version 3 and above.  The current version is ${sessionDetails.powerShellVersion}.`)
+                                // this.setSessionFailure(
+                                //     `PowerShell language features are only supported on PowerShell version 3 and above.  The current version is ${sessionDetails.powerShellVersion}.`)
                             }
                             else if (sessionDetails.reason === "languageMode") {
-                                this.setSessionFailure(
-                                    `PowerShell language features are disabled due to an unsupported LanguageMode: ${sessionDetails.detail}`);
+                                // this.setSessionFailure(
+                                //     `PowerShell language features are disabled due to an unsupported LanguageMode: ${sessionDetails.detail}`);
                             }
                             else {
-                                this.setSessionFailure(`PowerShell could not be started for an unknown reason '${sessionDetails.reason}'`)
+                                // this.setSessionFailure(`PowerShell could not be started for an unknown reason '${sessionDetails.reason}'`)
                             }
                         }
                         else {
@@ -219,7 +219,7 @@ export class PowerShellProcess extends EventEmitter {
                     }
                     else {
                         this.log.write(`${utils.getTimestampString()} Language server startup failed.`);
-                        this.setSessionFailure("Could not start language service: ", error);
+                        // this.setSessionFailure("Could not start language service: ", error);
                     }
                 });
 
