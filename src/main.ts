@@ -98,6 +98,10 @@ export function activate(context: vscode.ExtensionContext): void {
     // Create the logger
     logger = new Logger();
 
+    // We need 2 things:
+    // - A promise for doing something once the language server is started
+    // - A way to start the language server if it isn't started
+
     // Create features
     extensionFeatures = [
         new ConsoleFeature(),

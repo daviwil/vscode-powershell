@@ -57,7 +57,11 @@ type SessionConfiguration =
     PathSessionConfiguration |
     BuiltInSessionConfiguration;
 
-export class SessionManager {
+export interface ISessionManager {
+    getLanguageClient(waitMessage?: string, forceStart?: boolean) : Thenable<LanguageClient>;
+}
+
+export class SessionManager implements ISessionManager {
 
     private ShowSessionMenuCommandName = "PowerShell.ShowSessionMenu";
 
@@ -72,6 +76,7 @@ export class SessionManager {
     private consoleTerminal: vscode.Terminal = undefined;
     private languageServerClient: LanguageClient = undefined;
     private sessionSettings: Settings.ISettings = undefined;
+    private languageClientPromises: Thenable<LanguageClient>[] = [];
 
     // When in development mode, VS Code's session ID is a fake
     // value of "someValue.machineId".  Use that to detect dev
@@ -209,6 +214,22 @@ export class SessionManager {
 
         // Dispose of all commands
         this.registeredCommands.forEach(command => { command.dispose(); });
+    }
+
+    public getLanguageClient(waitMessage?: string, forceStart?: boolean) : Thenable<LanguageClient> {
+        if (this.sessionStatus == SessionStatus.NotStarted && forceStart) {
+            // TODO: Show waiting popup!
+            this.start();
+        }
+        else if (this.sessionStatus == SessionStatus.Running) {
+            return Promise.resolve(this.languageServerClient);
+        }
+        else if (this.sessionStatus == SessionStatus.Failed) {
+            // TODO: Return error
+            return Promise.reject("Could not start PowerShell language service.");
+        }
+
+        // Return a promise that will notify the caller when initialization is complete
     }
 
     private onConfigurationUpdated() {
