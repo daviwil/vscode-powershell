@@ -3,45 +3,36 @@
 
     "windows": {
         "command": "powershell.exe",
-        "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass" ]
+        "args": [ "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "Invoke-Build" ]
     },
     "linux": {
         "command": "/usr/bin/powershell",
-        "args": [ "-NoProfile" ]
+        "args": [ "-NoProfile",  "-Command", "Invoke-Build" ]
     },
     "osx": {
         "command": "/usr/local/bin/powershell",
-        "args": [ "-NoProfile" ]
+        "args": [ "-NoProfile", "-Command", "Invoke-Build" ]
     },
 
-    "showOutput": "always",
+    "echoCommand": true,
 
     "tasks": [
         {
-            "taskName": "Install",
-            "suppressTaskName": true,
-            "args": [ "Invoke-Build Restore" ]
+            "taskName": "Restore"
         },
         {
-            "taskName": "CleanAll",
-            "suppressTaskName": true,
-            "args": [ "Invoke-Build CleanAll" ]
+            "taskName": "CleanAll"
         },
         {
             "taskName": "Clean",
-            "suppressTaskName": true,
-            "args": [ "Invoke-Build Clean" ]
+            "group": "clean"
         },
         {
-            "taskName": "BuildAll",
-            "suppressTaskName": true,
-            "isBuildCommand": true,
-            "args": [ "Invoke-Build BuildAll" ]
+            "taskName": "BuildAll"
         },
         {
             "taskName": "Build",
-            "suppressTaskName": true,
-            "args": [ "Invoke-Build Build" ]
+            "group": "build"
         }
     ]
 }
