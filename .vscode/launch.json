@@ -2,6 +2,13 @@
 	"version": "0.1.0",
 	"configurations": [
 		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Examples",
+			"program": "${workspaceRoot}/out/prototype/examples.js",
+			"preLaunchTask": "Build"
+		},
+		{
 			"name": "Launch Extension",
 			"type": "extensionHost",
 			"request": "launch",
