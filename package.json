@@ -5,7 +5,7 @@
   "publisher": "ms-vscode",
   "description": "Develop PowerShell scripts in Visual Studio Code!",
   "engines": {
-    "vscode": "^1.12.0"
+    "vscode": "^1.14.0"
   },
   "license": "SEE LICENSE IN LICENSE.txt",
   "homepage": "https://github.com/PowerShell/vscode-powershell/blob/master/README.md",
@@ -31,11 +31,10 @@
     "onCommand:PowerShell.OpenExamplesFolder",
     "onCommand:PowerShell.StartDebugSession",
     "onCommand:PowerShell.PickPSHostProcess",
-    "onCommand:PowerShell.SpecifyScriptArgs",
-    "onCommand:PowerShell.ShowSessionConsole"
+    "onCommand:PowerShell.SpecifyScriptArgs"
   ],
   "dependencies": {
-    "vscode-languageclient": "3.3.0-alpha.6"
+    "vscode-languageclient": "3.3.0"
   },
   "devDependencies": {
     "@types/node": "^6.0.40",
@@ -178,6 +177,22 @@
       {
         "language": "powershell",
         "path": "./snippets/PowerShell.json"
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "PowerShell",
+        "required": [ "command" ],
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "The command string, including arguments, to be executed in PowerShell."
+          },
+          "powerShellExePath": {
+            "type": "string",
+            "description": "Specifies the full path to a PowerShell executable to be used for executing task commands.  Optional, defaults to the current session's PowerShell path. "
+          }
+        }
       }
     ],
     "debuggers": [

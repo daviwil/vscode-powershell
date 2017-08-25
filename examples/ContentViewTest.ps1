@@ -4,5 +4,7 @@ $params = @{
     StyleSheetPaths = ".\Assets\style.css"
 }
 
-$view = New-VSCodeHtmlContentView -Title "Test View" -ShowInColumn Two
+$view = New-VSCodeHtmlContentView -Title "Test View 2" -ShowInColumn Two
 Set-VSCodeHtmlContentView -View $view @params
+
+Get-Process | % { "Process: $($_.Name)<br />" } | Write-VSCodeHtmlContentView -View $view

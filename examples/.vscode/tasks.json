@@ -45,15 +45,11 @@
         "args": [ "-NoProfile" ]
     },
 
-    // Show the output window always
-    "showOutput": "always",
+    "suppressTaskName": true,
 
-    // Associate with test task runner
     "tasks": [
         {
             "taskName": "Clean",
-            "suppressTaskName": true,
-            "showOutput": "always",
             "args": [
                 "Write-Host 'Invoking PSake...'; Invoke-PSake build.ps1 -taskList Clean;",
                 "Invoke-Command { Write-Host 'Completed Clean task in task runner.' }"
@@ -61,9 +57,10 @@
         },
         {
             "taskName": "Build",
-            "suppressTaskName": true,
-            "isBuildCommand": true,
-            "showOutput": "always",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "args": [
                 "Write-Host 'Invoking PSake...'; Invoke-PSake build.ps1 -taskList Build;",
                 "Invoke-Command { Write-Host 'Completed Build task in task runner.' }"
@@ -71,8 +68,6 @@
         },
         {
             "taskName": "Publish",
-            "suppressTaskName": true,
-            "showOutput": "always",
             "args": [
                 "Write-Host 'Invoking PSake...'; Invoke-PSake build.ps1 -taskList Publish;",
                 "Invoke-Command { Write-Host 'Completed Publish task in task runner.' }"
@@ -80,9 +75,10 @@
         },
         {
             "taskName": "Test",
-            "suppressTaskName": true,
-            "isTestCommand": true,
-            "showOutput": "always",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
             "args": [
                 "Write-Host 'Invoking Pester...'; $ProgressPreference = 'SilentlyContinue'; Invoke-Pester -PesterOption @{IncludeVSCodeMarker=$true};",
                 "Invoke-Command { Write-Host 'Completed Test task in task runner.' }"

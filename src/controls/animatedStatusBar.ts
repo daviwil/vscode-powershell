@@ -6,6 +6,7 @@ import {
     StatusBarItem,
     StatusBarAlignment,
     Disposable,
+    ThemeColor,
     window} from "vscode";
 
 export function showAnimatedStatusBarMessage(text: string, hideWhenDone: Thenable<any>): Disposable {
@@ -49,11 +50,11 @@ class AnimatedStatusBarItem implements StatusBarItem {
         this.statusBarItem.tooltip = value;
     }
 
-    public get color(): string {
+    public get color(): string | ThemeColor {
         return this.statusBarItem.color;
     }
 
-    public set color(value: string) {
+    public set color(value: string | ThemeColor) {
         this.statusBarItem.color = value;
     }
 

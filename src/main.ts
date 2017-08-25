@@ -21,6 +21,7 @@ import { ShowHelpFeature } from './features/ShowOnlineHelp';
 import { CodeActionsFeature } from './features/CodeActions';
 import { RemoteFilesFeature } from './features/RemoteFiles';
 import { PesterTestsFeature } from './features/PesterTests';
+import { TaskProviderFeature } from './features/TaskProvider';
 import { DebugSessionFeature } from './features/DebugSession';
 import { PickPSHostProcessFeature } from './features/DebugSession';
 import { SpecifyScriptArgsFeature } from './features/DebugSession';
@@ -123,7 +124,8 @@ export function activate(context: vscode.ExtensionContext): void {
         new PickPSHostProcessFeature(),
         new SpecifyScriptArgsFeature(context),
         new HelpCompletionFeature(),
-        new CustomViewsFeature()
+        new CustomViewsFeature(),
+        new TaskProviderFeature()
     ];
 
     sessionManager.setExtensionFeatures(extensionFeatures);

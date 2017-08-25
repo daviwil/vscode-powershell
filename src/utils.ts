@@ -1,6 +1,7 @@
 import fs = require('fs');
 import os = require('os');
 import path = require('path');
+import Settings = require('./settings');
 
 export let PowerShellLanguageId = 'powershell';
 
@@ -127,4 +128,52 @@ export function getTimestampString() {
 
 export function isWindowsOS(): boolean {
     return os.platform() == "win32";
+}
+
+export function getPowerShellPath(settings?: Settings.ISettings): string {
+    if (!settings) {
+        settings = Settings.load();
+    }
+
+    // Is there a setting override for the PowerShell path?
+    var powerShellExePath =
+        (settings.powerShellExePath ||
+         settings.developer.powerShellExePath ||
+         "").trim();
+
+    return powerShellExePath.length > 0
+        ? this.resolvePowerShellPath(powerShellExePath)
+        : this.getDefaultPowerShellPath(settings.useX86Host);
+}
+
+export function getDefaultPowerShellPath(use32Bit: boolean): string | null {
+    // Find the path to powershell.exe based on the current platform
+    // and the user's desire to run the x86 version of PowerShell
+    var powerShellExePath = undefined;
+
+    if (isWindowsOS()) {
+        powerShellExePath =
+            use32Bit || !process.env.hasOwnProperty('PROCESSOR_ARCHITEW6432')
+            ? process.env.windir + '\\System32\\WindowsPowerShell\\v1.0\\powershell.exe'
+            : process.env.windir + '\\Sysnative\\WindowsPowerShell\\v1.0\\powershell.exe';
+    }
+    else if (os.platform() == "darwin") {
+        powerShellExePath = "/usr/local/bin/powershell";
+    }
+    else {
+        powerShellExePath = "/usr/bin/powershell";
+    }
+
+    return this.resolvePowerShellPath(powerShellExePath);
+}
+
+export function resolvePowerShellPath(powerShellExePath: string): string {
+    var resolvedPath = path.resolve(__dirname, powerShellExePath);
+
+    // If the path does not exist, show an error
+    if (!checkIfFileExists(resolvedPath)) {
+        throw "powershell.exe cannot be found or is not accessible at path " + resolvedPath;
+    }
+
+    return resolvedPath;
 }
